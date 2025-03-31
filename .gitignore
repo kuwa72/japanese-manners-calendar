@@ -1,0 +1,25 @@
+# 依存関係
+node_modules/
+package-lock.json
+
+# ビルド成果物
+dist/
+manners-data.json
+
+# ログ
+*.log
+npm-debug.log*
+
+# エディタの設定
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS固有のファイル
+.DS_Store
+Thumbs.db
+
+# 環境変数
+.env
+.env.local

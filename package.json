@@ -1,0 +1,37 @@
+{
+  "name": "japanese-manners-calendar",
+  "version": "1.0.0",
+  "description": "365日分の「嘘マナー」を日めくりカレンダー形式で表示するウェブアプリケーション",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -o -c-1",
+    "process-data": "node preprocess-manners.js",
+    "build": "npm run process-data && mkdir -p dist && cp -r *.html *.css *.js manners-data.json images dist",
+    "deploy": "npm run build && gh-pages -d dist",
+    "lint": "eslint *.js",
+    "format": "prettier --write \"*.{js,css,html,json}\"",
+    "test": "echo \"No tests available yet\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuwa72/jmanners.git"
+  },
+  "keywords": [
+    "calendar",
+    "japanese",
+    "etiquette",
+    "multilingual"
+  ],
+  "author": "kuwa72",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kuwa72/jmanners/issues"
+  },
+  "homepage": "https://kuwa72.github.io/jmanners",
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "gh-pages": "^5.0.0",
+    "http-server": "^14.1.1",
+    "prettier": "^2.8.8"
+  }
+}

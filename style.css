@@ -1,0 +1,308 @@
+/* 和風テイストの日めくりカレンダー スタイル */
+:root {
+    --primary-color: #8C2D3B; /* 深紅色 */
+    --secondary-color: #1A535C; /* 藍色 */
+    --accent-color: #D4AF37; /* 金色 */
+    --background-color: #F7F7F2; /* 生成り色 */
+    --text-color: #333333;
+    --paper-color: #FFFBF0; /* 和紙色 */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Serif JP', serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    background: linear-gradient(rgba(247, 247, 242, 0.95), rgba(247, 247, 242, 0.95)), 
+                url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h100v100H0z" fill="none"/><path d="M20 20h60v60H20z" fill="none" stroke="%23D4AF37" stroke-width="0.5" opacity="0.2"/></svg>');
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.calendar-wrapper {
+    position: relative;
+}
+
+.paper-background {
+    background-color: var(--paper-color);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #E8E8E0;
+}
+
+/* 和紙のテクスチャ効果 */
+.paper-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%),
+                linear-gradient(-45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%);
+    background-size: 60px 60px;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* カレンダーヘッダー */
+.calendar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.language-selector {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.language-selector button {
+    background: none;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.language-selector button.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+h1 {
+    font-size: 28px;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 20px;
+    letter-spacing: 0.05em;
+    position: relative;
+    display: inline-block;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+/* カレンダーコンテンツ */
+.calendar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.date-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.current-date {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--secondary-color);
+}
+
+.date-navigation {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-button {
+    background: none;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#today {
+    width: auto;
+    padding: 0 15px;
+    border-radius: 20px;
+}
+
+.nav-button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* マナーカード */
+.manner-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-left: 5px solid var(--primary-color);
+}
+
+.manner-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: 
+        radial-gradient(circle at 50% 50%, var(--accent-color) 2px, transparent 2px),
+        radial-gradient(circle at 50% 50%, var(--accent-color) 1px, transparent 1px);
+    background-size: 20px 20px, 10px 10px;
+    background-position: top right;
+    opacity: 0.1;
+}
+
+.manner-number {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.manner-title {
+    font-size: 22px;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.manner-description {
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+/* 季節の装飾 */
+.illustration {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.seasonal-decoration {
+    width: 150px;
+    height: 150px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 季節ごとの装飾（JavaScriptで切り替え） */
+.seasonal-decoration.spring {
+    background-image: url('data:image/svg+xml;utf8,<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><path d="M75 30c-1.4 0-2.5 1.1-2.5 2.5 0 11-9 20-20 20-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5c11 0 20 9 20 20 0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0-11 9-20 20-20 1.4 0 2.5-1.1 2.5-2.5s-1.1-2.5-2.5-2.5c-11 0-20-9-20-20 0-1.4-1.1-2.5-2.5-2.5z" fill="%23FFC0CB"/><circle cx="75" cy="55" r="5" fill="%23FFD700"/></svg>');
+}
+
+.seasonal-decoration.summer {
+    background-image: url('data:image/svg+xml;utf8,<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><circle cx="75" cy="75" r="25" fill="%23FFD700"/><path d="M75 30V15M75 135v-15M30 75H15M135 75h-15M45 45L35 35M105 105l10 10M45 105l-10 10M105 45l10-10" stroke="%23FFD700" stroke-width="3"/></svg>');
+}
+
+.seasonal-decoration.autumn {
+    background-image: url('data:image/svg+xml;utf8,<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><path d="M75 35c-5 10-15 20-25 25 10 5 20 15 25 25 5-10 15-20 25-25-10-5-20-15-25-25z" fill="%23FF6347"/><path d="M45 85c-3 6-9 12-15 15 6 3 12 9 15 15 3-6 9-12 15-15-6-3-12-9-15-15z" fill="%23FFA500"/><path d="M105 85c-3 6-9 12-15 15 6 3 12 9 15 15 3-6 9-12 15-15-6-3-12-9-15-15z" fill="%23FFA500"/></svg>');
+}
+
+.seasonal-decoration.winter {
+    background-image: url('data:image/svg+xml;utf8,<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><path d="M75 30v90M45 45l60 60M30 75h90M45 105l60-60" stroke="%2387CEEB" stroke-width="2"/><circle cx="75" cy="75" r="5" fill="%2387CEEB"/><circle cx="75" cy="30" r="3" fill="%2387CEEB"/><circle cx="75" cy="120" r="3" fill="%2387CEEB"/><circle cx="30" cy="75" r="3" fill="%2387CEEB"/><circle cx="120" cy="75" r="3" fill="%2387CEEB"/><circle cx="45" cy="45" r="3" fill="%2387CEEB"/><circle cx="105" cy="105" r="3" fill="%2387CEEB"/><circle cx="45" cy="105" r="3" fill="%2387CEEB"/><circle cx="105" cy="45" r="3" fill="%2387CEEB"/></svg>');
+}
+
+/* フッター */
+.calendar-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #E8E8E0;
+    color: var(--secondary-color);
+    font-size: 14px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+    }
+    
+    .paper-background {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    .manner-title {
+        font-size: 20px;
+    }
+    
+    .manner-description {
+        font-size: 16px;
+    }
+    
+    .current-date {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    .language-selector button {
+        padding: 3px 8px;
+        font-size: 12px;
+    }
+    
+    .manner-card {
+        padding: 20px;
+    }
+    
+    .manner-title {
+        font-size: 18px;
+    }
+    
+    .nav-button {
+        width: 35px;
+        height: 35px;
+    }
+}
