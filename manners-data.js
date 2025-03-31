@@ -16,8 +16,7 @@ const MannersData = (function() {
     // 日付からマナーを取得する関数
     function getMannerForDate(date) {
         const dayOfYear = getDayOfYear(date);
-        // dayOfYearに対応するマナーを返す（1-indexed）
-        return mannersCache.find(manner => manner.id === dayOfYear) || mannersCache[0];
+        return mannersCache[dayOfYear - 1] || getDefaultManners()[0];
     }
     
     // マナーデータ全体を取得する関数
@@ -45,76 +44,65 @@ const MannersData = (function() {
         try {
             // ファイルのテキストを取得（365-fake-manners.mdから）
             const response = await fetch('365-fake-manners.md');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
             const text = await response.text();
             
-            // テキストからマナーデータを解析
-            const manners = [];
+            // マナーデータを解析
             const lines = text.split('\n');
+            const manners = [];
             
             for (const line of lines) {
-                if (!line.trim()) continue;
-                
+                // 行フォーマット: "1. **年賀状の三筆書き** - 年賀状を書く際、筆を三回取り替えて書くことで「三重の福」を招くとされる。"
                 const match = line.match(/^(\d+)\.\s+\*\*(.+?)\*\*\s+-\s+(.+)$/);
                 if (match) {
                     const id = parseInt(match[1], 10);
-                    const title = match[2].trim();
-                    const description = match[3].trim();
+                    const jaTitle = match[2].trim();
+                    const jaDescription = match[3].trim();
                     
                     manners.push({
                         id,
                         title: {
-                            ja: title,
-                            en: getEnglishTitle(id, title),
-                            zh: getChineseTitle(id, title)
+                            ja: jaTitle,
+                            en: await getEnglishTitle(id, jaTitle),
+                            zh: await getChineseTitle(id, jaTitle)
                         },
                         description: {
-                            ja: description,
-                            en: getEnglishDescription(id, description),
-                            zh: getChineseDescription(id, description)
+                            ja: jaDescription,
+                            en: await getEnglishDescription(id, jaDescription),
+                            zh: await getChineseDescription(id, jaDescription)
                         }
                     });
                 }
             }
             
-            return manners.sort((a, b) => a.id - b.id);
-            
+            return manners;
         } catch (error) {
             console.error('マナーデータの解析に失敗しました:', error);
-            
-            // エラー時はデフォルトのマナーデータを返す
             return getDefaultManners();
         }
     }
     
     // 英語タイトルを取得する関数（実際は翻訳APIなどを使用）
-    function getEnglishTitle(id, jaTitle) {
-        // 実際のプロジェクトでは、事前に翻訳されたデータを使用するか
-        // 翻訳APIを使用して動的に翻訳する
-        return `${jaTitle} (English)`;
+    async function getEnglishTitle(id, jaTitle) {
+        // ここでは簡単な例として、日本語タイトルに "English: " を付加
+        return `English: ${jaTitle}`;
     }
     
     // 英語説明文を取得する関数（実際は翻訳APIなどを使用）
-    function getEnglishDescription(id, jaDescription) {
-        // 実際のプロジェクトでは、事前に翻訳されたデータを使用するか
-        // 翻訳APIを使用して動的に翻訳する
-        return `${jaDescription} (English)`;
+    async function getEnglishDescription(id, jaDescription) {
+        // ここでは簡単な例として、日本語説明文に "English: " を付加
+        return `English: ${jaDescription}`;
     }
     
     // 中国語タイトルを取得する関数（実際は翻訳APIなどを使用）
-    function getChineseTitle(id, jaTitle) {
-        // 実際のプロジェクトでは、事前に翻訳されたデータを使用するか
-        // 翻訳APIを使用して動的に翻訳する
-        return `${jaTitle} (中文)`;
+    async function getChineseTitle(id, jaTitle) {
+        // ここでは簡単な例として、日本語タイトルに "Chinese: " を付加
+        return `Chinese: ${jaTitle}`;
     }
     
     // 中国語説明文を取得する関数（実際は翻訳APIなどを使用）
-    function getChineseDescription(id, jaDescription) {
-        // 実際のプロジェクトでは、事前に翻訳されたデータを使用するか
-        // 翻訳APIを使用して動的に翻訳する
-        return `${jaDescription} (中文)`;
+    async function getChineseDescription(id, jaDescription) {
+        // ここでは簡単な例として、日本語説明文に "Chinese: " を付加
+        return `Chinese: ${jaDescription}`;
     }
     
     // デフォルトのマナーデータを取得する関数（エラー時のフォールバック）
@@ -130,7 +118,7 @@ const MannersData = (function() {
                 description: {
                     ja: "年賀状を書く際、筆を三回取り替えて書くことで「三重の福」を招くとされる。",
                     en: "It is said that changing brushes three times when writing New Year's cards brings \"triple fortune\".",
-                    zh: "据说写新年贺卡时更换三次笔，会带来"三重福气"。"
+                    zh: "据说写新年贺卡时更换三次笔，会带来三重福气。"
                 }
             },
             {
